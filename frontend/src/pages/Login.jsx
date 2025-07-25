@@ -1,51 +1,45 @@
-import React, { useState } from 'react';
-import axios from '../api/axiosInstance';
+// src/pages/Login.jsx
+import React, { useState } from "react";
+import axios from "../api/axiosInstance";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { saveUser } from "../auth";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
-      const response = await axios.post('http://localhost:8000/api/token/', {
+      const response = await axios.post("http://localhost:8000/api/token/", {
         email,
         password,
       });
 
       const { access, refresh } = response.data;
 
-      // Store tokens
-      localStorage.setItem('accessToken', access);
-      localStorage.setItem('refreshToken', refresh);
-
-      // Decode token
       const decoded = jwtDecode(access);
-      console.log(decoded)                  // for testing purpse only
-
       const role = decoded.role;
 
-      // Store role
-      localStorage.setItem('userRole', role);
+      // Save user tokens and role using helper
+      saveUser(access, role);
+      localStorage.setItem("refreshToken", refresh); // optional
 
-      // Redirect based on role
-      if (role === 'admin') {
-        navigate('/admin');
-      } else if (role === 'editor') {
-        navigate('/editor');
+      if (role === "admin") {
+        navigate("/admin");
+      } else if (role === "editor") {
+        navigate("/editor");
       } else {
-        navigate('/viewer');
+        navigate("/viewer");
       }
-
     } catch (err) {
       console.error(err);
-      setError('Invalid email or password');
+      setError("Invalid email or password");
     }
   };
 

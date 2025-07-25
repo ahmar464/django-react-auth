@@ -1,9 +1,9 @@
 // src/components/PrivateRoute.jsx
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
-  const token = localStorage.getItem('accessToken');
-  const role = localStorage.getItem('userRole');
+  const token = localStorage.getItem("accessToken");
+  const role = localStorage.getItem("userRole");
 
   if (!token || !role) {
     return <Navigate to="/login" />;
