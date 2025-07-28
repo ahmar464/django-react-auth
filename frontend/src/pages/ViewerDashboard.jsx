@@ -1,14 +1,23 @@
 import { logout } from "../auth";
 import { useNavigate } from "react-router-dom";
 
-const AdminDashboard = () => {
+const ViewerDashboard = () => {
   const navigate = useNavigate();
   return (
-    <div>
-      <h2>Welcome, Viewer</h2>
-      <button onClick={() => { logout(); navigate("/login"); }}>Logout</button>
+    <div className="p-8">
+      <h2 className="text-2xl font-bold mb-4">Welcome, Viewer</h2>
+      <p className="mb-4">You have viewer privileges in this application.</p>
+      <button
+        onClick={() => {
+          logout();
+          navigate("/login");
+        }}
+        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+      >
+        Logout
+      </button>
     </div>
   );
 };
 
-export default AdminDashboard;
+export default ViewerDashboard;

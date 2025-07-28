@@ -14,4 +14,17 @@ export const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("userRole");
+  localStorage.removeItem("userEmail");
+};
+
+export const isAuthenticated = () => {
+  return !!localStorage.getItem("accessToken");
+};
+
+export const getUserRole = () => {
+  return localStorage.getItem("userRole");
+};
+
+export const getUserEmail = () => {
+  return localStorage.getItem("userEmail");
 };
